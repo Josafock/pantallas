@@ -1,78 +1,121 @@
 'use client';
 
 import {
-  LayoutDashboard,
-  Server,
-  HardDrive,
-  RefreshCw,
-  ShieldCheck,
-  Users,
+  Home,
+  FileText,
+  ShoppingCart,
+  ClipboardList,
+  Menu,
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 const menuItems = [
   {
-    label: 'Panel principal',
-    icon: <LayoutDashboard size={20} />,
-    href: '/principal/dashboard',
+    label: 'Inicio',
+    icon: <Home size={20} />,
+    href: '/inicio',
   },
   {
-    label: 'Máquinas Virtuales',
-    icon: <Server size={20} />,
-    href: '/principal/vms',
+    label: 'Cotizaciones',
+    icon: <FileText size={20} />,
+    href: '/cotizaciones',
   },
   {
-    label: 'Almacenamiento',
-    icon: <HardDrive size={20} />,
-    href: '/principal/almacenamiento',
+    label: 'Compras',
+    icon: <ShoppingCart size={20} />,
+    href: '/compras',
   },
   {
-    label: 'Migración de VMs',
-    icon: <RefreshCw size={20} />,
-    href: '/principal/migracion',
-  },
-  {
-    label: 'Respaldo y Snapshots',
-    icon: <ShieldCheck size={20} />,
-    href: '/principal/respaldo',
-  },
-  {
-    label: 'Capacitación y Ayuda',
-    icon: <Users size={20} />,
-    href: '/principal/ayuda',
+    label: 'Machotes',
+    icon: <ClipboardList size={20} />,
+    href: '/machotes',
   },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setIsOpen(true);
+      } else {
+        setIsOpen(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <aside className="w-full md:w-64 h-screen fixed md:relative border-r border-gray-300 bg-[#E82E00] shadow-md">
-      <div className="p-6 text-center text-2xl font-bold text-white">
-        Proxmox UI
-      </div>
+    <>
+      {/* Mobile Menu Button */}
+      <button 
+        onClick={toggleSidebar}
+        className="md:hidden fixed top-4 left-4 z-50 bg-[#174940] text-white p-2 rounded-lg shadow-lg hover:bg-[#0F332D] transition-colors"
+      >
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
 
-      <nav className="px-4 mt-6 space-y-2">
-        {menuItems.map((item) => {
-          const isActive = pathname.startsWith(item.href);
+      {/* Overlay */}
+      {isOpen && isMobile && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium transition ${
-                isActive
-                  ? 'bg-[#f89406] text-white hover:bg-[#e87e00]'
-                  : 'text-[#f3e9dc] hover:bg-[#955c20]'
-              }`}
-            >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
-    </aside>
+      {/* Sidebar */}
+      <aside 
+        className={`${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+        md:translate-x-0 transform transition-transform duration-300 ease-in-out
+        w-64 h-screen fixed md:relative z-40 border-r border-[#0F332D] bg-[#174940] shadow-xl`}
+      >
+        <div className="p-6 text-center text-2xl font-bold text-white border-b border-[#63B23D]/30">
+          <span className="text-[#63B23D]">50</span>TA
+        </div>
+
+        <nav className="px-4 py-6 space-y-3">
+          {menuItems.map((item) => {
+            const isActive = pathname === item.href;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => isMobile && setIsOpen(false)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                  isActive  
+                    ? 'bg-[#63B23D] text-white shadow-md hover:bg-[#63B23D]/90'
+                    : 'text-white/90 hover:bg-[#0F332D] hover:text-white'
+                }`}
+              >
+                <span className={`${isActive ? 'text-white' : 'text-[#63B23D]'}`}>
+                  {item.icon}
+                </span>
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Footer */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 text-center text-xs text-[#999999] border-t border-[#63B23D]/20">
+          v1.0.0 • 50TA
+        </div>
+      </aside>
+    </>
   );
 }
