@@ -2,11 +2,11 @@
 
 import {
   Home,
-  FileText,
   ShoppingCart,
   ClipboardList,
   Menu,
-  X
+  X,
+  SquarePlus
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -19,14 +19,14 @@ const menuItems = [
     href: '/inicio',
   },
   {
-    label: 'Cotizaciones',
-    icon: <FileText size={20} />,
-    href: '/inicio/cotizaciones',
+    label: 'Agregar Producto',
+    icon: <SquarePlus size={20} />,
+    href: '/inicio/agregar-producto',
   },
   {
     label: 'Compras',
     icon: <ShoppingCart size={20} />,
-    href: '/inicio/compras',
+    href: '/inicio/cotizaciones',
   },
   {
     label: 'Machotes',
