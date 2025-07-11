@@ -11,6 +11,8 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import imgExport from '../public/imgExport';
+import Image from 'next/image';
 
 const menuItems = [
   {
@@ -84,7 +86,7 @@ export default function Sidebar() {
         w-64 min-h-screen fixed md:relative z-40 border-r border-[#0F332D] bg-[#174940] shadow-xl`}
       >
         <div className="p-6 text-center text-2xl font-bold text-white border-b border-[#63B23D]/30">
-          <span className="text-[#63B23D]">50</span>TA
+          <Image src={imgExport()} alt="Logo" width={250} height={250} className="mx-auto mb-2" />
         </div>
 
         <nav className="px-4 py-6 space-y-3">
