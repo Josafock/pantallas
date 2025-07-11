@@ -2,11 +2,11 @@
 
 import {
   Home,
-  ShoppingCart,
   ClipboardList,
   Menu,
   X,
-  SquarePlus
+  SquarePlus,
+  FileText
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -24,8 +24,8 @@ const menuItems = [
     href: '/inicio/agregar-producto',
   },
   {
-    label: 'Compras',
-    icon: <ShoppingCart size={20} />,
+    label: 'Cotizaciones',
+    icon: <FileText size={20} />,
     href: '/inicio/cotizaciones',
   },
   {
@@ -81,7 +81,7 @@ export default function Sidebar() {
       <aside 
         className={`${isOpen ? 'translate-x-0' : '-translate-x-full'} 
         md:translate-x-0 transform transition-transform duration-300 ease-in-out
-        w-64 h-screen fixed md:relative z-40 border-r border-[#0F332D] bg-[#174940] shadow-xl`}
+        w-64 min-h-screen fixed md:relative z-40 border-r border-[#0F332D] bg-[#174940] shadow-xl`}
       >
         <div className="p-6 text-center text-2xl font-bold text-white border-b border-[#63B23D]/30">
           <span className="text-[#63B23D]">50</span>TA
