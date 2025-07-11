@@ -21,17 +21,17 @@ const menuItems = [
   {
     label: 'Cotizaciones',
     icon: <FileText size={20} />,
-    href: '/cotizaciones',
+    href: '/inicio/cotizaciones',
   },
   {
     label: 'Compras',
     icon: <ShoppingCart size={20} />,
-    href: '/compras',
+    href: '/inicio/compras',
   },
   {
     label: 'Machotes',
     icon: <ClipboardList size={20} />,
-    href: '/machotes',
+    href: '/inicio/machotes',
   },
 ];
 
